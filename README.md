@@ -1,5 +1,5 @@
-# volLLaMA
+# Fine tuning a LLM
 
-### Code repo for post: [LLaMA]
+### Code repo for post: fine-tune-llm
 
-* In this post, I finetune LLaMA [which version, how, why, etc.]
+* In this project I fine tune Falcon
