@@ -4,9 +4,7 @@
 *.pkl
 data/
 allfiles/
-df_data.txt
-df_data_AAPL.txt
-df_data_JPM.txt
+*.txt
 
 # jupyter checkpoints
 .ipynb_checkpoints/
@@ -18,7 +16,7 @@ lambda-stack-with-tensorflow-pytorch/
 lambda-stack-without-tensorflow/
 
 # working files, which I generally name 'rem'
-rem.* REM.*
+*rem.* *REM.*
 
 # environment variables
 .env
