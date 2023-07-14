@@ -15,10 +15,10 @@ def index():
 def get_completion():
     try:
         prompt = request.form['prompt']
-        modality = request.form['modality']  # New line
+        modality = request.form['modality']
         api_key = get_api_key()
 
-        # Generate response for the given modality
+        # Generate response for the specific modality
         response = generate_gpt4_response(prompt, modality, api_key)
         
         return jsonify({"success": True, "response": response})
@@ -26,4 +26,3 @@ def get_completion():
     except ValueError as e:
         # jsonify() converts Python dictionary to JSON for the specific modality
         return jsonify({"success": False, "error": str(e)})
-

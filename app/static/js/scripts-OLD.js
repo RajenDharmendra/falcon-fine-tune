@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
+    const modalityForm = document.getElementById('modality-form');
     const promptForm = document.getElementById('prompt-form');
+    const modalities = document.getElementById('modalities');
     const resultElement = document.getElementById('result');
     const skeletonScreen = document.getElementById('skeleton-screen');
     const spinner = document.querySelector('.spinner');
@@ -19,6 +21,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Listen for input in the text area
     promptTextArea.addEventListener('input', updateSubmitButtonColor);
+
+    function activateModalityButton(button) {
+        const activeButton = modalities.querySelector('.btn.active');
+        if (activeButton) {
+            activeButton.classList.remove('active');
+        }
+        button.classList.add('active');
+    }
 
     function displayResult(result) {
         resultElement.innerHTML = result;
@@ -42,8 +52,9 @@ document.addEventListener('DOMContentLoaded', function () {
         ]);
     }
 
-    async function fetchData(prompt) {
+    async function fetchData(modality, prompt) {
         const formData = new FormData(promptForm);
+        formData.append("modality", modalityForm.elements["modality"].value);
 
         try {
             const response = await fetchWithTimeout("/get_completion", {
@@ -71,22 +82,30 @@ document.addEventListener('DOMContentLoaded', function () {
     async function handleFormSubmit(event) {
         event.preventDefault();
         toggleSpinner(true);
-
+    
         const prompt = promptForm.elements["prompt"].value;
-
+        const modality = modalityForm.elements["modality"].value;
+    
         try {
-            const result = await fetchData(prompt);
-
+            const result = await fetchData(modality, prompt);
+    
             if (result.success) {
-                displayResult(`<h3>Model: Due Diligence</h3><h5 class="text-lightgrey">Company: ${prompt}</h5><pre class="text-white">${result.response}</pre>`);
+                displayResult(`<h3>Model: ${modality}</h3><h5 class="text-lightgrey">Company: ${prompt}</h5><pre class="text-white">${result.response}</pre>`);
             } else {
                 displayError(result.error, resultElement);
             }
         } catch (error) {
             displayError("An error occurred while processing the request. Please try again later.", resultElement);
         }
-
+    
         toggleSpinner(false);
+    }    
+
+    function handleModalityButtonClick(event) {
+        const button = event.target;
+        const modalityValue = button.dataset.value;
+        modalityForm.elements["modality"].value = modalityValue;
+        activateModalityButton(button);
     }
 
     function handlePromptInput(event) {
@@ -94,6 +113,12 @@ document.addEventListener('DOMContentLoaded', function () {
         promptInput.style.height = 'auto';
         promptInput.style.height = (promptInput.scrollHeight) + 'px';
     }
+
+    modalities.addEventListener('click', function (event) {
+        if (event.target.tagName === 'BUTTON') {
+            handleModalityButtonClick(event);
+        }
+    });
 
     promptForm.addEventListener('submit', handleFormSubmit);
 

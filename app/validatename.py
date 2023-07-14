@@ -1,9 +1,7 @@
 import openai
 
 def validate_company_name_gpt(prompt, modality, api_key):
-    user_prompt = f"Please confirm that {prompt} is a valid company name by checking that it exists in a recognized corporate database or is listed on a stock exchange. Answer 'yes' or 'no'."
-
-    f"""Please confirm that {prompt} is a valid company name by checking is listed on a stock exchange:
+    user_prompt = f"""Please confirm that {prompt} is a valid company name by checking is listed on a stock exchange:
     the New York Stock Exchange NYSE,
     the NASDAQ,
     the London Stock Exchange LSE,
