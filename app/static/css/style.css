@@ -198,7 +198,7 @@ pre li:before {
 /* Split app into two windows */
 .chat-interface {
     display: flex;
-    height: calc(100vh - 75px);
+    height: calc(100vh - 0px);
     width: 100%;  
     /* margin-top: 75px; */
     /* add padding-bottom equal to the footer's height, assuming it's 3rem */
